@@ -1,0 +1,79 @@
+.signup-form {
+  margin: auto;
+  margin-top: 230px;
+  border-radius: 50px;
+  padding: 20px;
+  background-color: #cbcdff;
+  box-shadow: 5px 6px #888888;
+}
+
+.form-subtitle {
+  font-size: 20px;
+}
+
+.form-title {
+  margin-bottom: 30px;
+  font-family: "Roboto", sans-serif;
+}
+
+.main-content {
+  background-color: #9094e2;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+}
+
+.login-link {
+  display: block;
+  margin-top: 20px;
+  text-decoration: underline;
+  color: black;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .signup-form {
+    max-width: 350px;
+    max-height: 625px;
+    margin-top: 110px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .signup-form {
+    max-width: 450px;
+    max-height: 525px;
+    margin-top: 110px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .signup-form {
+    max-width: 450px;
+    max-height: 525px;
+    margin-top: 110px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .signup-form {
+    max-width: 450px;
+    max-height: 525px;
+    margin-top: 110px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .signup-form {
+    max-width: 450px;
+    max-height: 525px;
+    margin-top: 230px;
+  }
+}

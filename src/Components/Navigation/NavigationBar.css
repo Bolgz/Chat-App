@@ -1,0 +1,13 @@
+.link {
+  margin-left: 25px;
+  text-decoration: none;
+  color: white;
+}
+
+.logout-button {
+  margin-left: 25px;
+  padding: 0%;
+  text-decoration: none;
+  color: white;
+  margin-top: -1px;
+}
