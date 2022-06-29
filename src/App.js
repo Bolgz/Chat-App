@@ -1,5 +1,4 @@
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Components/Pages/Home/Home";
 import Account from "./Components/Pages/Account/Account";
 import Friends from "./Components/Pages/Friends/Friends";
@@ -29,48 +28,48 @@ const app = initializeApp(firebaseConfig);
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //Checks if current user is logged in
-  async function getIsLoggedIn() {
+  const home = (
+    <div className="App">
+      <Home />
+    </div>
+  );
+
+  const login = (
+    <div className="App">
+      <Login />
+    </div>
+  );
+
+  let currentPage = login;
+
+  //Using useEffect to check if the user is logged in stops inifite loop
+  useEffect(() => {
+    //Checks if current user is logged in
     const auth = getAuth();
     auth.onAuthStateChanged((user) => {
       //User is logged in
       if (user) {
-        setIsLoggedIn(true);
-        console.log("Logged in successfully");
-
         //Checks if user is in Firestore database
         utilities.getUser(user.uid).then((userExists) => {
           //If user is not in database
           if (!userExists) {
             //Adds user to Firestore database
             utilities.addUser(user.uid);
-          } else {
-            //User is in database so do nothing
-            return;
           }
         });
+        setIsLoggedIn(true);
+        console.log("User is logged in");
+        currentPage = home;
       } else {
         //User is not logged in
-        console.log("not logged in");
         setIsLoggedIn(false);
+        console.log("User is not logged in");
+        currentPage = login;
       }
     });
-  }
+  }, []);
 
-  getIsLoggedIn();
-
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </div>
-  );
+  return <div className="App">{isLoggedIn ? <Home /> : <Login />}</div>;
 }
 
 export default App;

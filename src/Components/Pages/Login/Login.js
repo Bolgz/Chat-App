@@ -33,8 +33,6 @@ function Login() {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log("Logged in successfully");
-            //Change route here
           })
           .catch((error) => {
             const errorMessage = error.message;
