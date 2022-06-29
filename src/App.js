@@ -5,10 +5,13 @@ import Friends from "./Components/Pages/Friends/Friends";
 import Messages from "./Components/Pages/Messages/Messages";
 import Signup from "./Components/Pages/Signup/Signup";
 import Login from "./Components/Pages/Login/Login";
+import NavigationBar from "./Components/Navigation/NavigationBar";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import * as utilities from "./Components/Utilities/FireStoreUtilities.js";
 import React, { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { render } from "@testing-library/react";
 
 //Firebase configuration
 const firebaseConfig = {
@@ -28,20 +31,6 @@ const app = initializeApp(firebaseConfig);
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const home = (
-    <div className="App">
-      <Home />
-    </div>
-  );
-
-  const login = (
-    <div className="App">
-      <Login />
-    </div>
-  );
-
-  let currentPage = login;
-
   //Using useEffect to check if the user is logged in stops inifite loop
   useEffect(() => {
     //Checks if current user is logged in
@@ -59,17 +48,52 @@ function App() {
         });
         setIsLoggedIn(true);
         console.log("User is logged in");
-        currentPage = home;
       } else {
         //User is not logged in
         setIsLoggedIn(false);
         console.log("User is not logged in");
-        currentPage = login;
       }
     });
   }, []);
 
-  return <div className="App">{isLoggedIn ? <Home /> : <Login />}</div>;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>
+            <NavigationBar /> <Home />
+          </div>
+        }
+      />
+      <Route
+        path="/account"
+        element={
+          <div>
+            <NavigationBar /> <Account />
+          </div>
+        }
+      />
+      <Route
+        path="/friends"
+        element={
+          <div>
+            <NavigationBar /> <Friends />
+          </div>
+        }
+      />
+      <Route
+        path="/messages"
+        element={
+          <div>
+            <NavigationBar /> <Messages />
+          </div>
+        }
+      />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
 }
 
 export default App;

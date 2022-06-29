@@ -32,7 +32,6 @@ function Login() {
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             // Signed in
-            const user = userCredential.user;
           })
           .catch((error) => {
             const errorMessage = error.message;
@@ -71,9 +70,11 @@ function Login() {
           />
         </Form.Group>
 
-        <Button variant="primary" onClick={setAuthPersistence}>
-          Log in
-        </Button>
+        <Link to="/">
+          <Button variant="primary" onClick={setAuthPersistence}>
+            Log in
+          </Button>
+        </Link>
 
         <Link to="/signup" className="login-link">
           Click here to Signup
