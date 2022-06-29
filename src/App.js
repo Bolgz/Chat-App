@@ -11,7 +11,7 @@ import { getAuth } from "firebase/auth";
 import * as utilities from "./Components/Utilities/FireStoreUtilities.js";
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { render } from "@testing-library/react";
+import DetailsForm from "./Components/Pages/Signup/DetailsForm";
 
 //Firebase configuration
 const firebaseConfig = {
@@ -43,11 +43,12 @@ function App() {
           //If user is not in database
           if (!userExists) {
             //Adds user to Firestore database
-            utilities.addUser(user.uid);
+            utilities.addUser(user.uid, user.displayName);
           }
         });
         setIsLoggedIn(true);
         console.log("User is logged in");
+        console.log(user.displayName);
       } else {
         //User is not logged in
         setIsLoggedIn(false);
@@ -56,44 +57,86 @@ function App() {
     });
   }, []);
 
-  return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div>
-            <NavigationBar /> <Home />
-          </div>
-        }
-      />
-      <Route
-        path="/account"
-        element={
-          <div>
-            <NavigationBar /> <Account />
-          </div>
-        }
-      />
-      <Route
-        path="/friends"
-        element={
-          <div>
-            <NavigationBar /> <Friends />
-          </div>
-        }
-      />
-      <Route
-        path="/messages"
-        element={
-          <div>
-            <NavigationBar /> <Messages />
-          </div>
-        }
-      />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
-  );
+  const auth = getAuth();
+  //If user is logged in and they haven't filled out their details, redirect to details form
+  if (isLoggedIn && auth.currentUser.displayName === null) {
+    return (
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        {/**Redirect user to details page if trying to access resitricted content */}
+        <Route path="/messages" element={<DetailsForm />} />
+        <Route path="/friends" element={<DetailsForm />} />
+        <Route path="/account" element={<DetailsForm />} />
+        <Route path="/" element={<DetailsForm />} />
+        <Route path="/details" element={<DetailsForm />} />
+      </Routes>
+    );
+    //If user is logged in and they have filled out their details, give full url access
+  } else if (isLoggedIn && auth.currentUser.displayName !== null) {
+    return (
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <NavigationBar /> <Home />
+            </div>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <div>
+              <NavigationBar /> <Account />
+            </div>
+          }
+        />
+        <Route
+          path="/friends"
+          element={
+            <div>
+              <NavigationBar /> <Friends />
+            </div>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <div>
+              <NavigationBar /> <Messages />
+            </div>
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/details"
+          element={
+            <div>
+              <NavigationBar /> <Home />
+            </div>
+          }
+        />
+      </Routes>
+    );
+    //User is not logged in, only allow access to login and signup pages
+  } else {
+    return (
+      <div className="App">
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          {/**Redirect user to login page if trying to access resitricted content */}
+          <Route path="/messages" element={<Login />} />
+          <Route path="/friends" element={<Login />} />
+          <Route path="/account" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/details" element={<Login />} />
+        </Routes>
+      </div>
+    );
+  }
 }
 
 export default App;

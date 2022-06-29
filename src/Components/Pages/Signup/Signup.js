@@ -10,7 +10,6 @@ function Signup() {
   //State for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   //State for if an signup error occurs
   const [signupError, setSignupError] = useState("");
@@ -20,14 +19,12 @@ function Signup() {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("Signed up successfully");
-        // Signed in
         //Switches to home screen upon account creation
+        window.location.pathname = "/details";
       })
       .catch((error) => {
         const errorMessage = error.message;
         setSignupError(errorMessage);
-        console.log(errorMessage);
       });
   }
 
@@ -46,6 +43,10 @@ function Signup() {
       return <p className="error-message-signup">Password is missing</p>;
     } else if (signupError === "Firebase: Error (auth/missing-email).") {
       return <p className="error-message-signup">Email is missing</p>;
+    } else if (signupError === "Username is too short") {
+      return <p className="error-message-signup">Username is too short</p>;
+    } else if (signupError === "Username is already taken") {
+      return <p className="error-message-signup">Username is already taken</p>;
     }
   }
 
@@ -53,18 +54,6 @@ function Signup() {
     <div className="main-content">
       <Form className="signup-form">
         <h2 className="form-title">Create a Chat-App account</h2>
-
-        <Form.Group className="mb-3" controlId="formBasicUsername">
-          <Form.Label className="form-subtitle">Username</Form.Label>
-          <Form.Control
-            type="username"
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Form.Text className="text-muted">
-            Your username will be public.
-          </Form.Text>
-        </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className="form-subtitle">Email address</Form.Label>
@@ -88,14 +77,17 @@ function Signup() {
           <Form.Text className="text-muted">Make it strong!</Form.Text>
         </Form.Group>
 
-        <Button onClick={createUserAccount} variant="primary">
-          Submit
-        </Button>
+        <div className="submit-button">
+          <Button onClick={createUserAccount} variant="primary">
+            Submit
+          </Button>
+        </div>
+
+        {getSignupErrorMessage()}
 
         <Link to="/login" className="login-link">
           Click here to login
         </Link>
-        {getSignupErrorMessage()}
       </Form>
     </div>
   );

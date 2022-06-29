@@ -1,5 +1,3 @@
-import NavigationBar from "../../Navigation/NavigationBar";
-
 function Account(props) {
   return (
     <div>

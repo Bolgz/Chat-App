@@ -34,9 +34,6 @@ function Login() {
             // Signed in
           })
           .catch((error) => {
-            const errorMessage = error.message;
-            console.log(errorMessage);
-            console.log(email);
             setLoginError(true);
           });
       })
@@ -48,12 +45,12 @@ function Login() {
   }
 
   return (
-    <div className="main-content">
+    <div className="main-content-login">
       <Form className="login-form">
-        <h2 className="form-title">Log in to Chat-App!</h2>
+        <h2 className="form-title-login">Log in to Chat-App!</h2>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label className="form-subtitle">Email address</Form.Label>
+          <Form.Label className="form-subtitle-login">Email address</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -62,7 +59,7 @@ function Login() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label className="form-subtitle">Password</Form.Label>
+          <Form.Label className="form-subtitle-login">Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"
@@ -70,13 +67,17 @@ function Login() {
           />
         </Form.Group>
 
-        <Link to="/">
+        <Link to="/" className="login-button">
           <Button variant="primary" onClick={setAuthPersistence}>
             Log in
           </Button>
         </Link>
 
-        <Link to="/signup" className="login-link">
+        {loginError && (
+          <p className="error-message-login">Incorrect email or password</p>
+        )}
+
+        <Link to="/signup" className="signup-link">
           Click here to Signup
         </Link>
       </Form>

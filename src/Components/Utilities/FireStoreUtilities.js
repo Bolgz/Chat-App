@@ -19,17 +19,18 @@ export async function getUser(userId) {
 }
 
 //Add user to Firestore
-export async function addUser(userId) {
-  await setDoc(doc(getFirestore(), "users", userId), {
-    userid: userId,
+export async function addUser(_userId, _displayName) {
+  await setDoc(doc(getFirestore(), "users", _userId), {
+    userid: _userId,
+    displayname: _displayName,
   });
 }
 
-//Sets user's todo list in Firestore
-export async function setTodos(userId, todoList) {
-  const userRef = doc(getFirestore(), "users", userId);
+//Sets user's display name in Firestore
+export async function setDisplayName(_userId, _displayName) {
+  const userRef = doc(getFirestore(), "users", _userId);
 
-  await updateDoc(userRef, { todos: todoList });
+  await updateDoc(userRef, { displayname: _displayName });
 }
 
 //Get user's todo list from Firestore

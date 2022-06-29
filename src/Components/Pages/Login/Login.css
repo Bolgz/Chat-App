@@ -7,6 +7,57 @@
   box-shadow: 5px 6px #888888;
 }
 
+.form-subtitle-login {
+  font-size: 20px;
+}
+
+.form-title-login {
+  margin-bottom: 30px;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.login-button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.main-content-login {
+  background-color: #9094e2;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+}
+
+.signup-link {
+  display: block;
+  margin-top: 20px;
+  text-decoration: underline;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.error-message-login {
+  color: red;
+  font-size: 20px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .login-form {

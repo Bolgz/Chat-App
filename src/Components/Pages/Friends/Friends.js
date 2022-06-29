@@ -1,5 +1,3 @@
-import NavigationBar from "../../Navigation/NavigationBar";
-
 function Friends(props) {
   return (
     <div>
