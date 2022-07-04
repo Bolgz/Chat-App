@@ -5,7 +5,6 @@ import {
   setDoc,
   updateDoc,
   collection,
-  query,
   getDocs,
 } from "firebase/firestore";
 
@@ -26,6 +25,7 @@ export async function addUser(_userId, _displayName) {
   await setDoc(doc(getFirestore(), "users", _userId), {
     userid: _userId,
     displayname: _displayName,
+    messagelist: [],
   });
 }
 
@@ -45,6 +45,22 @@ export async function checkDisplayName(_displayName) {
   querySnapshot.forEach((doc) => {
     if (doc.data().displayname === _displayName) {
       exists = true;
+      return exists;
+    }
+  });
+
+  return exists;
+}
+
+//Return userID of give display name
+export async function getUserIdFromDisplayName(_displayName) {
+  const querySnapshot = await getDocs(collection(getFirestore(), "users"));
+
+  let exists = null;
+
+  querySnapshot.forEach((doc) => {
+    if (doc.data().displayname === _displayName) {
+      exists = doc.data().userid;
       return exists;
     }
   });

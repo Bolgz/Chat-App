@@ -45,12 +45,9 @@ function App() {
           }
         });
         setIsLoggedIn(true);
-        console.log("User is logged in");
-        console.log(user.displayName);
       } else {
         //User is not logged in
         setIsLoggedIn(false);
-        console.log("User is not logged in");
       }
     });
   }, []);

@@ -1,8 +1,10 @@
 .page-content {
-  display: flexbox;
+  display: grid;
+  grid-template-columns: 500px 500px 500px;
+  padding: 10px;
+  justify-content: center;
 }
 
-.chat-form {
-  max-width: 500px;
-  margin: auto;
+.grid-item {
+  text-align: center;
 }

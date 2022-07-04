@@ -4,8 +4,9 @@ import { Button } from "react-bootstrap";
 import "./Home.css";
 import React, { useState } from "react";
 import ChatBox from "../../Chat/ChatBox";
+import FriendsList from "../../FriendsList/MessageList";
 
-function Home(props) {
+function Home() {
   const [message, setMessage] = useState("");
 
   function sendMessage(event) {
@@ -15,26 +16,30 @@ function Home(props) {
 
   return (
     <div className="page-content">
-      <h1>Home</h1>
+      <div className="grid-item">
+        <FriendsList />
+      </div>
 
-      <ChatBox />
+      <div className="grid-item">
+        <ChatBox />
 
-      <div className="chat-form">
-        <Form onSubmit={sendMessage}>
-          <Form.Group className="mb-3" controlId="formMessage">
-            <Form.Control
-              type="message"
-              placeholder="Message"
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </Form.Group>
+        <div>
+          <Form onSubmit={sendMessage}>
+            <Form.Group className="mb-3" controlId="formMessage">
+              <Form.Control
+                type="message"
+                placeholder="Message"
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </Form.Group>
 
-          <Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form.Group>
-        </Form>
+            <Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form.Group>
+          </Form>
+        </div>
       </div>
     </div>
   );

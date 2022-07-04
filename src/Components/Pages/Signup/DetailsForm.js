@@ -42,12 +42,12 @@ function DetailsForm() {
 
       //Set user's display name in Firestore
       const auth = getAuth();
+      utilities.setDisplayName(auth.currentUser.uid, username);
       updateProfile(auth.currentUser, {
         displayName: username,
       })
         .then(() => {
           console.log("Profile updated: ", username);
-          utilities.setDisplayName(auth.currentUser.uid, username);
           //Navigate to home page
           window.location.pathname = "/";
         })
