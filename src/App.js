@@ -33,6 +33,7 @@ function App() {
   useEffect(() => {
     //Checks if current user is logged in
     const auth = getAuth();
+
     auth.onAuthStateChanged((user) => {
       //User is logged in
       if (user) {
@@ -44,6 +45,7 @@ function App() {
             utilities.addUser(user.uid, user.displayName);
           }
         });
+
         setIsLoggedIn(true);
       } else {
         //User is not logged in

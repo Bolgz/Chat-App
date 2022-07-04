@@ -25,7 +25,7 @@ export async function addUser(_userId, _displayName) {
   await setDoc(doc(getFirestore(), "users", _userId), {
     userid: _userId,
     displayname: _displayName,
-    messagelist: [],
+    contactlist: [],
   });
 }
 
@@ -52,18 +52,60 @@ export async function checkDisplayName(_displayName) {
   return exists;
 }
 
-//Return userID of give display name
-export async function getUserIdFromDisplayName(_displayName) {
+//Return data of given display name
+export async function getUserDataFromDisplayName(_displayName) {
   const querySnapshot = await getDocs(collection(getFirestore(), "users"));
 
-  let exists = null;
+  let exists = false;
 
   querySnapshot.forEach((doc) => {
     if (doc.data().displayname === _displayName) {
-      exists = doc.data().userid;
+      exists = {
+        userID: doc.data().userid,
+        userDisplayName: doc.data().displayname,
+        userContactList: doc.data().contactlist,
+      };
       return exists;
     }
   });
 
   return exists;
+}
+
+//Return data of given name userID
+export async function getUserDataFromUserId(_userId) {
+  const querySnapshot = await getDocs(collection(getFirestore(), "users"));
+
+  let exists = false;
+
+  querySnapshot.forEach((doc) => {
+    if (doc.data().userid === _userId) {
+      exists = {
+        userID: doc.data().userid,
+        userDisplayName: doc.data().displayname,
+        userContactList: doc.data().contactlist,
+      };
+      return exists;
+    }
+  });
+
+  return exists;
+}
+
+//Add user to contactlist in Firestore
+export async function addContact(_userId, _contactId) {
+  const userRef = doc(getFirestore(), "users", _userId);
+  const docSnap = await getDoc(userRef);
+
+  await updateDoc(userRef, {
+    contactlist: [...docSnap.data().contactlist, _contactId],
+  });
+}
+
+//Get contactlist of user from Firestore
+export async function getContactList(_userId) {
+  const userRef = doc(getFirestore(), "users", _userId);
+  const docSnap = await getDoc(userRef);
+
+  return docSnap.data().contactlist;
 }

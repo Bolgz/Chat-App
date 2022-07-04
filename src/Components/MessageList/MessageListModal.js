@@ -6,16 +6,16 @@ import FoundUser from "./FoundUser";
 function FriendsListModal(props) {
   //State for username to search for
   const [username, setUsername] = useState("");
-  const [userFoundId, setUserFoundId] = useState("");
+  const [userFound, setUserFound] = useState("");
   const [searchError, setSearchError] = useState(false);
 
   async function searchForUser() {
-    setUserFoundId("");
+    setUserFound("");
     setSearchError(false);
     //Search for user
-    const result = await utilities.getUserIdFromDisplayName(username);
+    const result = await utilities.getUserDataFromDisplayName(username);
     if (result) {
-      setUserFoundId(result);
+      setUserFound(result);
     } else {
       setSearchError(true);
     }
@@ -37,7 +37,11 @@ function FriendsListModal(props) {
         <input onChange={(e) => setUsername(e.target.value)}></input>
         <Button onClick={searchForUser}>Search</Button>
         <div>{searchError ? "User not found" : " "}</div>
-        <FoundUser userID={userFoundId} userDisplayName={username} />
+        <FoundUser
+          userID={userFound.userID}
+          userDisplayName={userFound.userDisplayName}
+          userContactList={userFound.contactlist}
+        />
       </Modal.Body>
     </Modal>
   );

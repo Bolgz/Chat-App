@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import "./Home.css";
 import React, { useState } from "react";
 import ChatBox from "../../Chat/ChatBox";
-import FriendsList from "../../FriendsList/MessageList";
+import MessageList from "../../MessageList/MessageList";
 
 function Home() {
   const [message, setMessage] = useState("");
@@ -17,7 +17,7 @@ function Home() {
   return (
     <div className="page-content">
       <div className="grid-item">
-        <FriendsList />
+        <MessageList />
       </div>
 
       <div className="grid-item">
