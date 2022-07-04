@@ -4,6 +4,9 @@ import {
   getFirestore,
   setDoc,
   updateDoc,
+  collection,
+  query,
+  getDocs,
 } from "firebase/firestore";
 
 // Check if user exists in Firestore
@@ -33,10 +36,18 @@ export async function setDisplayName(_userId, _displayName) {
   await updateDoc(userRef, { displayname: _displayName });
 }
 
-//Get user's todo list from Firestore
-export async function getTodos(userId) {
-  const userRef = doc(getFirestore(), "users", userId);
-  const docSnap = await getDoc(userRef);
+//Check if display name is already taken
+export async function checkDisplayName(_displayName) {
+  const querySnapshot = await getDocs(collection(getFirestore(), "users"));
 
-  return docSnap.data().todos;
+  let exists = false;
+
+  querySnapshot.forEach((doc) => {
+    if (doc.data().displayname === _displayName) {
+      exists = true;
+      return exists;
+    }
+  });
+
+  return exists;
 }

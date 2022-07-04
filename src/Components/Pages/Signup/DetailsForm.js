@@ -25,13 +25,20 @@ function DetailsForm() {
       });
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     //Make sure username is longer than 2 characters
     if (username.length < 3) {
       setusernameError("Username must be at least 3 characters");
       return;
     } else {
       setusernameError("");
+
+      //Check if username is already taken
+      const result = await utilities.checkDisplayName(username);
+      if (result) {
+        setusernameError("Username already exists");
+        return;
+      }
 
       //Set user's display name in Firestore
       const auth = getAuth();
@@ -41,6 +48,7 @@ function DetailsForm() {
         .then(() => {
           console.log("Profile updated: ", username);
           utilities.setDisplayName(auth.currentUser.uid, username);
+          //Navigate to home page
           window.location.pathname = "/";
         })
         .catch((error) => {
@@ -69,6 +77,8 @@ function DetailsForm() {
       return <p className="error-message-signup">Username is too short</p>;
     } else if (usernameError === "Username must be at least 3 characters") {
       return <p className="error-message-signup">Username is too short</p>;
+    } else if (usernameError === "Username already exists") {
+      return <p className="error-message-signup">Username is taken</p>;
     }
   }
 

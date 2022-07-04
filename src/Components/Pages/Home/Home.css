@@ -1,0 +1,8 @@
+.page-content {
+  display: flexbox;
+}
+
+.chat-form {
+  max-width: 500px;
+  margin: auto;
+}

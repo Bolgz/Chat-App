@@ -1,8 +1,6 @@
 import "./App.css";
 import Home from "./Components/Pages/Home/Home";
 import Account from "./Components/Pages/Account/Account";
-import Friends from "./Components/Pages/Friends/Friends";
-import Messages from "./Components/Pages/Messages/Messages";
 import Signup from "./Components/Pages/Signup/Signup";
 import Login from "./Components/Pages/Login/Login";
 import NavigationBar from "./Components/Navigation/NavigationBar";
@@ -65,8 +63,6 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         {/**Redirect user to details page if trying to access resitricted content */}
-        <Route path="/messages" element={<DetailsForm />} />
-        <Route path="/friends" element={<DetailsForm />} />
         <Route path="/account" element={<DetailsForm />} />
         <Route path="/" element={<DetailsForm />} />
         <Route path="/details" element={<DetailsForm />} />
@@ -92,22 +88,6 @@ function App() {
             </div>
           }
         />
-        <Route
-          path="/friends"
-          element={
-            <div>
-              <NavigationBar /> <Friends />
-            </div>
-          }
-        />
-        <Route
-          path="/messages"
-          element={
-            <div>
-              <NavigationBar /> <Messages />
-            </div>
-          }
-        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route
@@ -128,8 +108,6 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           {/**Redirect user to login page if trying to access resitricted content */}
-          <Route path="/messages" element={<Login />} />
-          <Route path="/friends" element={<Login />} />
           <Route path="/account" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/details" element={<Login />} />

@@ -22,28 +22,21 @@ function NavigationBar(props) {
       <Container>
         <Navbar.Brand>
           <Link to="/" className="link">
-            Chat App
+            Chat-App
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Link to="/messages" className="link">
-              Messages
-            </Link>
-            <Link to="/friends" className="link">
-              Friends
-            </Link>
-          </Nav>
+          <Nav className="me-auto"></Nav>
           <Nav>
             <Link to="/account" className="link">
               Account
             </Link>
-            <Button variant="link" className="logout-button" onClick={Logout}>
-              <Link to="/login" className="link">
+            <Link to="/login" className="logout-button">
+              <Button variant="link" className="logout-button" onClick={Logout}>
                 Log out
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

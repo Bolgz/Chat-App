@@ -1,0 +1,9 @@
+.chat-area {
+  min-height: 500px;
+  max-width: 500px;
+  overflow-y: scroll;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #000000;
+  margin: auto;
+}

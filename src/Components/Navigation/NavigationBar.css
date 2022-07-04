@@ -9,5 +9,17 @@
   padding: 0%;
   text-decoration: none;
   color: white;
-  margin-top: -1px;
+  margin-top: -2px;
+}
+
+/* Small devices (screens, 992px and down) */
+@media only screen and (max-width: 991px) {
+  .logout-button {
+    padding: 0%;
+    text-decoration: none;
+    color: white;
+    margin-top: -1px;
+    float: left;
+    margin-left: 12px;
+  }
 }
