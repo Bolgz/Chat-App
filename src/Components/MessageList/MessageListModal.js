@@ -6,11 +6,11 @@ import FoundUser from "./FoundUser";
 function FriendsListModal(props) {
   //State for username to search for
   const [username, setUsername] = useState("");
-  const [userFound, setUserFound] = useState("");
+  const [userFound, setUserFound] = useState({});
   const [searchError, setSearchError] = useState(false);
 
   async function searchForUser() {
-    setUserFound("");
+    setUserFound({});
     setSearchError(false);
     //Search for user
     const result = await utilities.getUserDataFromDisplayName(username);
@@ -40,7 +40,8 @@ function FriendsListModal(props) {
         <FoundUser
           userID={userFound.userID}
           userDisplayName={userFound.userDisplayName}
-          userContactList={userFound.contactlist}
+          userContactList={userFound.contactList}
+          updateMessageList={props.updatemessagelist}
         />
       </Modal.Body>
     </Modal>
