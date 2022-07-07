@@ -93,12 +93,17 @@ export async function getUserDataFromUserId(_userId) {
 }
 
 //Add user to contactlist in Firestore
-export async function addContact(_userId, _contactId) {
+export async function addContact(_userId, _contactId, _contactDisplayName) {
   const userRef = doc(getFirestore(), "users", _userId);
   const docSnap = await getDoc(userRef);
 
+  const newContact = {
+    contactId: _contactId,
+    contactDisplayName: _contactDisplayName,
+  };
+
   await updateDoc(userRef, {
-    contactlist: [...docSnap.data().contactlist, _contactId],
+    contactlist: [...docSnap.data().contactlist, newContact],
   });
 }
 
@@ -108,4 +113,16 @@ export async function getContactList(_userId) {
   const docSnap = await getDoc(userRef);
 
   return docSnap.data().contactlist;
+}
+
+//Remove user from contactlist in Firestore
+export async function removeContact(_userId, _contactId) {
+  const userRef = doc(getFirestore(), "users", _userId);
+  const docSnap = await getDoc(userRef);
+
+  const newContactList = docSnap
+    .data()
+    .contactlist.filter((contact) => contact.contactId !== _contactId);
+
+  await updateDoc(userRef, { contactlist: newContactList });
 }

@@ -1,0 +1,22 @@
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4%;
+}
+
+.user-message-button {
+  display: flex;
+  min-width: 250px;
+}
+
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:visited {
+  background-color: #9094e2 !important;
+}
+
+.remove-contact-button {
+  margin-left: 7px;
+}

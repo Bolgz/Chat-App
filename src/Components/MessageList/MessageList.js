@@ -1,36 +1,24 @@
 import "./MessageList.css";
 import { Button } from "react-bootstrap";
 import MessageListModal from "./MessageListModal";
-import React, { useState, useEffect } from "react";
-import { doc, getFirestore, getDoc } from "firebase/firestore";
+import React, { useState } from "react";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import * as utilities from "../Utilities/FireStoreUtilities";
-import { flushSync } from "react-dom";
+import UserCard from "./UserCard";
 
 function MessageList() {
   const [modalShow, setModalShow] = useState(false);
-  const [contactList, setContactList] = useState([]);
   const [displayNames, setDisplayNames] = useState([]);
 
   const auth = getAuth();
 
-  async function getContactListDisplayNames() {
-    const contactIds = await utilities.getContactList(auth.currentUser.uid);
-
-    //Get display names for each contact
-    let displayNamesTemp = [];
-
-    await Promise.all(
-      contactIds.map(async (contactID) => {
-        const userRef = doc(getFirestore(), "users", contactID);
-        const docSnap = await getDoc(userRef);
-        displayNamesTemp.push(docSnap.data().displayname);
-      })
-    );
-
-    setDisplayNames(displayNamesTemp);
-    console.log("CALLED");
-  }
+  //Set up a document listener to get the user's contact list
+  const unsub = onSnapshot(
+    doc(getFirestore(), "users", auth.currentUser.uid),
+    (doc) => {
+      setDisplayNames(doc.data().contactlist);
+    }
+  );
 
   return (
     <div>
@@ -39,16 +27,15 @@ function MessageList() {
         <Button variant="primary" onClick={() => setModalShow(true)}>
           Start Conversation
         </Button>
-        <MessageListModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          updatemessagelist={getContactListDisplayNames}
-        />
+        <MessageListModal show={modalShow} onHide={() => setModalShow(false)} />
         {displayNames.map((displayName) => (
-          <p key={displayName}>{displayName}</p>
+          <UserCard
+            displayName={displayName.contactDisplayName}
+            userID={displayName.contactId}
+            key={displayName.contactId}
+          />
         ))}
       </div>
-      <button onClick={getContactListDisplayNames}>Refresh Message List</button>
     </div>
   );
 }

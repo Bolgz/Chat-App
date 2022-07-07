@@ -8,13 +8,16 @@ function FoundUser(props) {
     utilities.getUserDataFromUserId(auth.currentUser.uid).then((user) => {
       //Check if userID is already in contact list
       if (!user.userContactList.includes(props.userID)) {
-        utilities.addContact(auth.currentUser.uid, props.userID);
+        utilities.addContact(
+          auth.currentUser.uid,
+          props.userID,
+          props.userDisplayName
+        );
+        console.log(props.userDisplayName);
       } else {
         console.log("User already in contact list");
       }
     });
-
-    props.updateMessageList();
   }
 
   //If user is found, show the user's profile
