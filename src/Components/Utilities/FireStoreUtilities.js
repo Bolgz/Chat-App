@@ -102,6 +102,7 @@ export async function addContact(_userId, _contactId, _contactDisplayName) {
     contactDisplayName: _contactDisplayName,
   };
 
+  //This line may be causing write operation server overload
   await updateDoc(userRef, {
     contactlist: [...docSnap.data().contactlist, newContact],
   });
