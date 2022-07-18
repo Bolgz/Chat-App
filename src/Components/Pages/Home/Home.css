@@ -8,3 +8,47 @@
 .grid-item {
   text-align: center;
 }
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 37500px) {
+  .page-content {
+    grid-template-columns: 276px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 500px) {
+  .page-content {
+    grid-template-columns: 400px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .page-content {
+    grid-template-columns: 400px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .page-content {
+    grid-template-columns: 500px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .page-content {
+    grid-template-columns: 500px 500px;
+    margin-right: 100px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1420px and up) */
+@media only screen and (min-width: 1420px) {
+  .page-content {
+    grid-template-columns: 500px 500px 500px;
+    margin-right: 0px;
+  }
+}

@@ -102,10 +102,9 @@ export async function addContact(_userId, _contactId, _contactDisplayName) {
     contactDisplayName: _contactDisplayName,
   };
 
-  //This line may be causing write operation server overload
-  await updateDoc(userRef, {
-    contactlist: [...docSnap.data().contactlist, newContact],
-  });
+  const newContactList = [...docSnap.data().contactlist, newContact];
+
+  await updateDoc(userRef, { contactlist: newContactList });
 }
 
 //Get contactlist of user from Firestore

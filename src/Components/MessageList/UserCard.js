@@ -15,7 +15,7 @@ function UserCard(props) {
       </Button>
       <CloseButton
         className="remove-contact-button"
-        onClick={handleRemoveButton()}
+        onClick={handleRemoveButton}
       />
     </div>
   );
