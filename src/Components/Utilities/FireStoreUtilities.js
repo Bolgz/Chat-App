@@ -102,9 +102,18 @@ export async function addContact(_userId, _contactId, _contactDisplayName) {
     contactDisplayName: _contactDisplayName,
   };
 
-  const newContactList = [...docSnap.data().contactlist, newContact];
+  //Only add contact if it doesn't already exist
+  let canAdd = true;
+  docSnap.data().contactlist.forEach(async (element) => {
+    if (element.contactId == _contactId) {
+      canAdd = false;
+    }
+  });
 
-  await updateDoc(userRef, { contactlist: newContactList });
+  if (canAdd) {
+    const newContactList = [...docSnap.data().contactlist, newContact];
+    await updateDoc(userRef, { contactlist: newContactList });
+  }
 }
 
 //Get contactlist of user from Firestore
@@ -125,4 +134,64 @@ export async function removeContact(_userId, _contactId) {
     .contactlist.filter((contact) => contact.contactId !== _contactId);
 
   await updateDoc(userRef, { contactlist: newContactList });
+}
+
+//Get user conversation if exists
+export async function getConversation(_userID1, _userID2) {
+  const convoPossibility1 = _userID1 + "-" + _userID2;
+  const convoPossibility2 = _userID2 + "-" + _userID1;
+
+  let convoRef = doc(getFirestore(), "conversations", convoPossibility1);
+
+  const docSnap = await getDoc(convoRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().Messages;
+  } else {
+    convoRef = doc(getFirestore(), "conversations", convoPossibility2);
+    const docSnap = await getDoc(convoRef);
+    if (docSnap.exists()) {
+      return docSnap.data().Messages;
+    } else {
+      return false;
+    }
+  }
+}
+
+//Create new conversation in Firestore
+export async function createConversation(_userID1, _userID2) {
+  const path = _userID1 + "-" + _userID2;
+
+  await setDoc(doc(getFirestore(), "conversations", path), {
+    Messages: [],
+  });
+}
+
+//Send a message to a conversation
+export async function sendMessage(sender, receiver, message) {
+  const convoPossibility1 = sender + "-" + receiver;
+  const convoPossibility2 = receiver + "-" + sender;
+
+  let convoRef = doc(getFirestore(), "conversations", convoPossibility1);
+
+  const docSnap = await getDoc(convoRef);
+
+  const newMessage = { sender, message };
+
+  if (docSnap.exists()) {
+    const newMessageMap = [...docSnap.data().Messages, newMessage];
+    await updateDoc(convoRef, { Messages: newMessageMap });
+  } else {
+    convoRef = doc(getFirestore(), "conversations", convoPossibility2);
+    const docSnap = await getDoc(convoRef);
+    if (docSnap.exists()) {
+      const newMessageMap = [...docSnap.data().Messages, newMessage];
+      await updateDoc(convoRef, { Messages: newMessageMap });
+    }
+  }
+
+  //Add sender ID to receiver's contact list
+  getUserDataFromUserId(sender).then((userData) => {
+    addContact(receiver, sender, userData.userDisplayName);
+  });
 }

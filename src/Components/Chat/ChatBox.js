@@ -1,7 +1,7 @@
 import "./ChatBox.css";
 
-function ChatBox() {
-  return <div className="chat-area"></div>;
+function ChatBox(props) {
+  return <div className="chat-area">{props.messages}</div>;
 }
 
 export default ChatBox;

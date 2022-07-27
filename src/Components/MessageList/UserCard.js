@@ -8,9 +8,18 @@ function UserCard(props) {
     utilities.removeContact(getAuth().currentUser.uid, props.userID);
   }
 
+  //Passing the userID of user to message to the function in the parent component
+  function messageUser() {
+    props.returnUserToMessage(props.userID, props.displayName);
+  }
+
   return (
     <div className="button-container">
-      <Button variant="secondary" className="user-message-button">
+      <Button
+        variant="secondary"
+        className="user-message-button"
+        onClick={messageUser}
+      >
         {props.displayName}
       </Button>
       <CloseButton

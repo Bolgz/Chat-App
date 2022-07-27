@@ -13,7 +13,6 @@ function FoundUser(props) {
           props.userID,
           props.userDisplayName
         );
-        console.log(props.userDisplayName);
       } else {
         console.log("User already in contact list");
       }

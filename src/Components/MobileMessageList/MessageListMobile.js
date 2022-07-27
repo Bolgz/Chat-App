@@ -3,11 +3,16 @@ import { Button, Offcanvas } from "react-bootstrap";
 import "./MessageListMobile.css";
 import MessageList from "../MessageList/MessageList";
 
-function MessageListMobile() {
+function MessageListMobile(props) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
+
+  //Gets the user to meessage
+  function getUserToMessage(userID, displayName) {
+    props.returnUserToMessage(userID, displayName);
+  }
 
   return (
     <>
@@ -19,7 +24,7 @@ function MessageListMobile() {
           <Offcanvas.Title></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <MessageList />
+          <MessageList returnUserToMessage={getUserToMessage} />
         </Offcanvas.Body>
       </Offcanvas>
     </>

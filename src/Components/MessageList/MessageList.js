@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import UserCard from "./UserCard";
+import { propTypes } from "react-bootstrap/esm/Image";
 
-function MessageList() {
+function MessageList(props) {
   const [modalShow, setModalShow] = useState(false);
   const [displayNames, setDisplayNames] = useState([]);
 
@@ -19,6 +20,11 @@ function MessageList() {
       setDisplayNames(doc.data().contactlist);
     }
   );
+
+  //Gets the user to meessage
+  function getUserToMessage(userID, displayName) {
+    props.returnUserToMessage(userID, displayName);
+  }
 
   return (
     <div>
@@ -33,6 +39,7 @@ function MessageList() {
             displayName={displayName.contactDisplayName}
             userID={displayName.contactId}
             key={displayName.contactId}
+            returnUserToMessage={getUserToMessage}
           />
         ))}
       </div>
