@@ -168,15 +168,15 @@ export async function createConversation(_userID1, _userID2) {
 }
 
 //Send a message to a conversation
-export async function sendMessage(sender, receiver, message) {
-  const convoPossibility1 = sender + "-" + receiver;
-  const convoPossibility2 = receiver + "-" + sender;
+export async function sendMessage(senderDN, SenderID, receiver, message) {
+  const convoPossibility1 = SenderID + "-" + receiver;
+  const convoPossibility2 = receiver + "-" + SenderID;
 
   let convoRef = doc(getFirestore(), "conversations", convoPossibility1);
 
   const docSnap = await getDoc(convoRef);
 
-  const newMessage = { sender, message };
+  const newMessage = { senderDN, message };
 
   if (docSnap.exists()) {
     const newMessageMap = [...docSnap.data().Messages, newMessage];
@@ -191,7 +191,7 @@ export async function sendMessage(sender, receiver, message) {
   }
 
   //Add sender ID to receiver's contact list
-  getUserDataFromUserId(sender).then((userData) => {
-    addContact(receiver, sender, userData.userDisplayName);
+  getUserDataFromUserId(SenderID).then((userData) => {
+    addContact(receiver, SenderID, userData.userDisplayName);
   });
 }

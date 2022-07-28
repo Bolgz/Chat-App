@@ -1,0 +1,36 @@
+.sentUserName {
+  margin-left: 120px;
+  color: blue;
+}
+
+.sentMessage {
+  margin-left: 120px;
+  color: blue;
+}
+
+.receivedUserName {
+  margin-right: 120px;
+  color: red;
+}
+
+.receivedMessage {
+  margin-right: 120px;
+  color: red;
+}
+
+.sentBubble {
+  margin-left: 250px;
+  background-color: #67cae9;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 220px;
+  max-height: 75px;
+}
+
+.receivedBubble {
+  background-color: #a7a2a2;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 220px;
+  max-height: 75px;
+}

@@ -20,22 +20,39 @@ function Home() {
 
   const auth = getAuth();
 
+  //Sends message to Firestore
   function sendMessage(event) {
     event.preventDefault();
     if (userToMessageID !== "") {
       utilities.sendMessage(
-        getAuth().currentUser.uid,
-        userToMessageID,
-        message
+        getAuth().currentUser.displayName, //Senders display name
+        getAuth().currentUser.uid, //Senders ID
+        userToMessageID, //Recepient's ID
+        message //Message
       );
     }
   }
 
-  //Gets the user to message & retrieves their conversation
+  //Gets the user-to-message & retrieves their conversation
   function getUserToMessage(userID, displayName) {
     setUserToMessageID(userID);
 
     retrieveMessages(userID, displayName);
+
+    //Setup listener to get new messages
+    onSnapshot(
+      doc(getFirestore(), "conversations", auth.currentUser.uid + "-" + userID),
+      (doc) => {
+        retrieveMessages(userID, displayName);
+      }
+    );
+    //Setup listener to get new messages
+    onSnapshot(
+      doc(getFirestore(), "conversations", userID + "-" + auth.currentUser.uid),
+      (doc) => {
+        retrieveMessages(userID, displayName);
+      }
+    );
   }
 
   //Retrieve messages if they exist. If not, create a new conversation
@@ -49,41 +66,23 @@ function Home() {
         if (!conversation) {
           //If the user doesn't have a conversation with the userToMessageID, create one
           utilities.createConversation(auth.currentUser.uid, userID);
-          setMessages(["You have started a conversation with " + displayName]);
         } else {
           if (conversation.length > 0) {
             const listOfMessages = [];
+
             conversation.forEach((message) => {
-              listOfMessages.push([message.message, message.sender]);
+              listOfMessages.push({
+                Message: message.message, //The message
+                SenderID: message.sender, //The sender ID
+                Recepient: displayName, //The display name of the recepient
+                Sender: message.senderDN, //The display name of the sender
+              });
             });
             setMessages(listOfMessages);
-          } else {
-            setMessages([
-              "You have started a conversation with " + displayName,
-            ]);
           }
         }
       });
   }
-
-  useEffect(() => {
-    //Set up a document listener to for user contact list
-    const unsub = onSnapshot(
-      doc(getFirestore(), "users", auth.currentUser.uid),
-      (doc) => {
-        //Set up listeners for conversations between the user and each contact
-        let combinations = [];
-        //Get each possible combination of the user and each contact in the contact list
-        doc.data().contactlist.forEach((contact) => {
-          combinations.push(
-            [contact.contactId, auth.currentUser.uid],
-            [auth.currentUser.uid, contact.contactId]
-          );
-        });
-        //If one of the combinations is a conversation, set up a listener for it
-      }
-    );
-  }, []);
 
   //Handles the toggle of the friends list based upon current screen size
   useEffect(() => {
