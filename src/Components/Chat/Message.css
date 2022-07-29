@@ -1,36 +1,35 @@
 .sentUserName {
-  margin-left: 120px;
   color: blue;
 }
 
 .sentMessage {
-  margin-left: 120px;
   color: blue;
 }
 
-.receivedUserName {
-  margin-right: 120px;
-  color: red;
-}
-
-.receivedMessage {
-  margin-right: 120px;
-  color: red;
-}
-
 .sentBubble {
+  margin-top: 5px;
   margin-left: 250px;
   background-color: #67cae9;
   border-radius: 10px;
   padding: 10px;
   max-width: 220px;
-  max-height: 75px;
+  word-wrap: break-word;
+}
+
+.receivedUserName {
+  color: red;
+}
+
+.receivedMessage {
+  color: red;
 }
 
 .receivedBubble {
+  margin-top: 5px;
   background-color: #a7a2a2;
   border-radius: 10px;
   padding: 10px;
   max-width: 220px;
-  max-height: 75px;
+  margin-left: 5px;
+  word-wrap: break-word;
 }

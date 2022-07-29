@@ -9,12 +9,15 @@ import MessageListMobile from "../../MobileMessageList/MessageListMobile";
 import { getAuth } from "firebase/auth";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import * as utilities from "../../Utilities/FireStoreUtilities";
+import * as ReactDOM from "react-dom";
 
 function Home() {
   const [message, setMessage] = useState("");
   const [shouldShowFriendsList, setShouldShowFriendsList] = useState(true);
   //Sets the user to message ID
   const [userToMessageID, setUserToMessageID] = useState("");
+  //Sets the user to message name
+  const [userToMessageName, setUserToMessageName] = useState("");
   //Messages to display in Message Box
   const [messages, setMessages] = useState([]);
 
@@ -31,6 +34,9 @@ function Home() {
         message //Message
       );
     }
+
+    //Resets message box input on submit
+    ReactDOM.findDOMNode(document.getElementById("message")).value = "";
   }
 
   //Gets the user-to-message & retrieves their conversation
@@ -82,6 +88,8 @@ function Home() {
           }
         }
       });
+
+    setUserToMessageName(displayName);
   }
 
   //Handles the toggle of the friends list based upon current screen size
@@ -93,7 +101,7 @@ function Home() {
         setShouldShowFriendsList(true);
       }
     }
-
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -109,15 +117,16 @@ function Home() {
       </div>
 
       <div className="grid-item">
-        <ChatBox messages={messages} />
+        <ChatBox messages={messages} currentlyMessaging={userToMessageName} />
 
         <div>
           <Form onSubmit={sendMessage}>
-            <Form.Group className="mb-3" controlId="formMessage">
+            <Form.Group className="mb-3">
               <Form.Control
-                type="message"
+                type="text"
                 placeholder="Message"
                 onChange={(e) => setMessage(e.target.value)}
+                id="message"
               />
             </Form.Group>
 

@@ -16,11 +16,21 @@ function ChatBox(props) {
       </div>
     );
   } else {
-    return (
-      <div className="chat-area">
-        <p>No messages yet</p>
-      </div>
-    );
+    if (props.currentlyMessaging !== "") {
+      return (
+        <div className="chat-area">
+          <p className="chatbox-header">
+            Chatting with {props.currentlyMessaging}
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="chat-area">
+          <p className="chatbox-header">Start chatting with someone!</p>
+        </div>
+      );
+    }
   }
 }
 

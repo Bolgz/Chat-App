@@ -1,9 +1,18 @@
 .chat-area {
   min-height: 500px;
+  max-height: 750px;
   max-width: 500px;
   overflow-y: scroll;
   border-width: 2px;
   border-style: solid;
   border-color: #000000;
   margin: auto;
+}
+
+.chatbox-header {
+  color: rgb(241, 132, 150);
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
 }
